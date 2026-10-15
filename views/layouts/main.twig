@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Приложение{% endblock %}</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    {% include 'components/header.twig' %}
+
+    <div class="container">
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
+
+        {% include 'components/sidebar.twig' %}
+    </div>
+
+    {% include 'components/footer.twig' %}
+
+</body>
+</html>

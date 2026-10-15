@@ -1,0 +1,9 @@
+{% extends "layouts/main.twig" %}
+
+{% block title %}Ошибка приложения{% endblock %}
+
+{% block content %}
+    <h2 style="color: #dc3545;">Произошла ошибка</h2>
+    <p><strong>Сообщение:</strong> {{ message }}</p>
+    <p><small>Файл: {{ file }} (строка {{ line }})</small></p>
+{% endblock %}

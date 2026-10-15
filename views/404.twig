@@ -1,0 +1,8 @@
+{% extends "layouts/main.twig" %}
+
+{% block title %}Ошибка 404{% endblock %}
+
+{% block content %}
+    <h2>404 — Страница не найдена</h2>
+    <p>{{ message|default("Запрошенная страница не существует.") }}</p>
+{% endblock %}

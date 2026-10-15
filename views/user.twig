@@ -1,0 +1,77 @@
+{% extends "layouts/main.twig" %}
+
+{% block title %}Список пользователей{% endblock %}
+
+{% block content %}
+    <h2>Список пользователей</h2>
+
+    <!-- Форма добавления (если она у вас есть на этой странице) -->
+    <form action="/user/save" method="POST">
+        <input type="text" name="name" placeholder="Имя" required>
+        <input type="date" name="birthday" required>
+        <button type="submit">Добавить</button>
+    </form>
+
+    <table border="1" cellpadding="8" cellspacing="0" style="margin-top: 20px; width: 100%;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Имя</th>
+                <th>Дата рождения</th>
+                <th>Роль</th>
+                {% if is_admin %}
+                    <th>Действия</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in users %}
+                <tr id="user-row-{{ u.id }}">
+                    <td>{{ u.id }}</td>
+                    <td>{{ u.name }}</td>
+                    <td>{{ u.birthday }}</td>
+                    <td>{{ u.role }}</td>
+                    
+                    {% if is_admin %}
+                        <td>
+                            <a href="/user/edit?id={{ u.id }}">Редактировать</a> | 
+                            <button type="button" onclick="deleteUser({{ u.id }})" style="background: none; border: none; color: red; cursor: pointer; padding: 0;">Удалить</button>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- JavaScript для асинхронного удаления -->
+    <script>
+        function deleteUser(id) {
+            if (!confirm('Вы уверены, что хотите удалить этого пользователя?')) {
+                return;
+            }
+
+            fetch('/user/delete?id=' + id, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Удаляем строку из таблицы на лету без перезагрузки страницы
+                    const row = document.getElementById('user-row-' + id);
+                    if (row) {
+                        row.remove();
+                    }
+                } else {
+                    alert('Ошибка: ' + (data.message || 'Не удалось удалить'));
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка сети:', error);
+                alert('Произошла ошибка при отправке запроса.');
+            });
+        }
+    </script>
+{% endblock %}

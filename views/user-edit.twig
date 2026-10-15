@@ -1,0 +1,25 @@
+{% extends "layouts/main.twig" %}
+
+{% block title %}Редактировать пользователя{% endblock %}
+
+{% block content %}
+    <h2>Редактирование пользователя</h2>
+
+    <form action="/user/update" method="POST" style="background: #f9f9f9; padding: 15px; border-radius: 5px; max-width: 400px;">
+        <!-- Скрытое поле для передачи ID -->
+        <input type="hidden" name="id" value="{{ user.id }}">
+
+        <div style="margin-bottom: 10px;">
+            <label>Имя:</label><br>
+            <input type="text" name="name" value="{{ user.name }}" required style="padding: 5px; width: 100%;">
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <label>Дата рождения (не изменяется):</label><br>
+            <input type="text" value="{{ user.birthday }}" disabled style="padding: 5px; width: 100%; background: #eee;">
+        </div>
+
+        <button type="submit" style="padding: 5px 15px;">Сохранить изменения</button>
+        <a href="/user/index" style="margin-left: 10px;">Отмена</a>
+    </form>
+{% endblock %}
